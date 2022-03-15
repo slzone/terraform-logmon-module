@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "namespace_my_grafana_operator" {
-    depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]   
+    depends_on = [kubernetes_manifest.clusterlogging_openshift_logging_instance]   
   manifest = {
     "apiVersion" = "v1"
     "kind" = "Namespace"
