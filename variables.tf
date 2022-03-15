@@ -94,17 +94,17 @@ variable "taints" {
   default     = null
 }
   
-variable "ibmcloud_api_key" {
-    type = string
-    sensitive = true
-}
-variable "region" {
-  description = "Region to provision the Openshift cluster. List all available regions with: ibmcloud regions"
-}
+# variable "ibmcloud_api_key" {
+#     type = string
+#     sensitive = true
+# }
+# variable "region" {
+#   description = "Region to provision the Openshift cluster. List all available regions with: ibmcloud regions"
+# }
 
-variable "resource_group" {
-  description = "Resource Group id in your account to host the cluster. List all available resource groups with: ibmcloud resource groups. It is created if empty"
-}
+# variable "resource_group" {
+#   description = "Resource Group id in your account to host the cluster. List all available resource groups with: ibmcloud resource groups. It is created if empty"
+# }
 
 
 variable "schematics" {
