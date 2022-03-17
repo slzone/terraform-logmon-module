@@ -1,0 +1,30 @@
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://c115-e.us-south.containers.cloud.ibm.com:32525
+  name: slzv2-log-mon-cluster/c8ovt2sd0go40hvb6fpg
+- cluster:
+    server: https://c115-e.us-south.containers.cloud.ibm.com:32525
+  name: c115-e-us-south-containers-cloud-ibm-com:32525
+contexts:
+- context:
+    cluster: slzv2-log-mon-cluster/c8ovt2sd0go40hvb6fpg
+    namespace: default
+    user: admin/c8ovt2sd0go40hvb6fpg
+  name: slzv2-log-mon-cluster/c8ovt2sd0go40hvb6fpg/admin
+- context:
+    cluster: c115-e-us-south-containers-cloud-ibm-com:32525
+    namespace: default
+    user: IAM#jahanavee.potturu1@ibm.com/c115-e-us-south-containers-cloud-ibm-com:32525
+  name: default/c115-e-us-south-containers-cloud-ibm-com:32525/IAM#jahanavee.potturu1@ibm.com
+current-context: default/c115-e-us-south-containers-cloud-ibm-com:32525/IAM#jahanavee.potturu1@ibm.com
+kind: Config
+preferences: {}
+users:
+- name: admin/c8ovt2sd0go40hvb6fpg
+  user:
+    client-certificate: admin.pem
+    client-key: admin-key.pem
+- name: IAM#jahanavee.potturu1@ibm.com/c115-e-us-south-containers-cloud-ibm-com:32525
+  user:
+    token: sha256~Qk7jsMQbtvTSHZHQIxvBXRWK1KTM6Gx5qcIQVAVzlL0

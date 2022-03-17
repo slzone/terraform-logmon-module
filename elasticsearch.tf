@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "namespace_openshift_operators_redhat" {
-    depends_on = [ibm_container_vpc_worker_pool.pool]
+    #depends_on = [ibm_container_vpc_worker_pool.pool]
 
   manifest = {
     "apiVersion" = "v1"
