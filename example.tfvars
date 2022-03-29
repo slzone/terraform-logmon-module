@@ -1,0 +1,5 @@
+ibmcloud_api_key  = ""
+region            = ""
+resource_group_id = ""
+cluster_name      = ""
+schematics        = ""
