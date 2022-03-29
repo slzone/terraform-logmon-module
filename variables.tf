@@ -1,12 +1,12 @@
-  
+
 variable "ibmcloud_api_key" {
-    type = string
-    sensitive = true
+  type      = string
+  sensitive = true
 }
 
 variable "region" {
   description = "Region to provision the Openshift cluster. List all available regions with: ibmcloud regions"
-  type = string
+  type        = string
 }
 
 variable "resource_group_id" {
@@ -20,7 +20,7 @@ variable "cluster_name" {
 }
 
 variable "schematics" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Set to false if you are not running this template in schematics"
 }

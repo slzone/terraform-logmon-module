@@ -1,18 +1,18 @@
 resource "kubernetes_manifest" "clusterlogging_openshift_logging_instance" {
-    depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]
+  depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]
 
   manifest = {
     "apiVersion" = "logging.openshift.io/v1"
-    "kind" = "ClusterLogging"
+    "kind"       = "ClusterLogging"
     "metadata" = {
-      "name" = "instance"
+      "name"      = "instance"
       "namespace" = "openshift-logging"
     }
     "spec" = {
       "collection" = {
         "logs" = {
           "fluentd" = {}
-          "type" = "fluentd"
+          "type"    = "fluentd"
         }
       }
       "curation" = {
@@ -44,7 +44,7 @@ resource "kubernetes_manifest" "clusterlogging_openshift_logging_instance" {
             }
           }
           "storage" = {
-            "size" = "200G"
+            "size"             = "200G"
             "storageClassName" = "ibmc-vpc-block-general-purpose"
           }
         }
