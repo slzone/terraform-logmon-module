@@ -10,6 +10,7 @@ resource "kubernetes_manifest" "namespace_openshift_logging" {
       }
       "labels" = {
         "openshift.io/cluster-logging" = "true"
+        "openshift.io/cluster-monitoring" = "true"
       }
       "name" = "openshift-logging"
     }
