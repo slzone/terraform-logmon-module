@@ -41,10 +41,11 @@ resource "kubernetes_manifest" "subscription_openshift_operators_redhat_elastics
       "namespace" = "openshift-operators-redhat"
     }
     "spec" = {
-      "channel"         = "stable-5.2"
-      "name"            = "elasticsearch-operator"
-      "source"          = "redhat-operators"
-      "sourceNamespace" = "openshift-marketplace"
+      "channel"             = "stable-5.2"
+      "installPlanApproval" = "Automatic"
+      "name"                = "elasticsearch-operator"
+      "source"              = "redhat-operators"
+      "sourceNamespace"     = "openshift-marketplace"
     }
   }
 }
