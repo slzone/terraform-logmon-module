@@ -16,7 +16,6 @@ data "ibm_container_cluster_config" "cluster" {
 }
 
 provider "kubernetes" {
-  version                = ">=1.8.1"
   host                   = data.ibm_container_cluster_config.cluster.host
   client_certificate     = data.ibm_container_cluster_config.cluster.admin_certificate
   client_key             = data.ibm_container_cluster_config.cluster.admin_key
