@@ -9,8 +9,8 @@ variable "region" {
   type        = string
 }
 
-variable "resource_group_id" {
-  description = "ID of resource group."
+variable "resource_group" {
+  description = "Name of resource group"
   type        = string
 }
 
