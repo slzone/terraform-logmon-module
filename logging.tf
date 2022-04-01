@@ -9,7 +9,7 @@ resource "kubernetes_manifest" "namespace_openshift_logging" {
         "openshift.io/node-selector" = ""
       }
       "labels" = {
-        "openshift.io/cluster-monitoring" = "true"
+        "openshift.io/cluster-logging" = "true"
       }
       "name" = "openshift-logging"
     }
