@@ -1,5 +1,8 @@
 resource "kubernetes_manifest" "clusterlogging_openshift_logging_instance" {
-  depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]
+  depends_on = [
+    kubernetes_manifest.subscription_openshift_logging_cluster_logging,
+    kubernetes_manifest.subscription_my_grafana_operator_my_grafana_operator
+  ]
 
   manifest = {
     "apiVersion" = "logging.openshift.io/v1"
