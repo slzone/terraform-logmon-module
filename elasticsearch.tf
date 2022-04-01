@@ -17,7 +17,7 @@ resource "kubernetes_manifest" "namespace_openshift_operators_redhat" {
 }
 
 resource "kubernetes_manifest" "operatorgroup_openshift_operators_redhat_openshift_operators_redhat" {
-  depends_on = [kubernetes_manifest.namespace_openshift_operators_redhat]
+  depends_on = [kubernetes_manifest.namespace_openshift_logging]
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1"

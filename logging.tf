@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "namespace_openshift_logging" {
-  depends_on = [kubernetes_manifest.subscription_openshift_operators_redhat_elasticsearch_operator]
+  depends_on = [kubernetes_manifest.namespace_openshift_operators_redhat]
 
   manifest = {
     "apiVersion" = "v1"
@@ -9,7 +9,6 @@ resource "kubernetes_manifest" "namespace_openshift_logging" {
         "openshift.io/node-selector" = ""
       }
       "labels" = {
-        "openshift.io/cluster-logging"    = "true"
         "openshift.io/cluster-monitoring" = "true"
       }
       "name" = "openshift-logging"
@@ -52,4 +51,3 @@ resource "kubernetes_manifest" "subscription_openshift_logging_cluster_logging" 
     }
   }
 }
-
