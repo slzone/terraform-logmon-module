@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "clusterlogging_openshift_logging_instance" {
-  depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]
+  count = var.install_logging == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "logging.openshift.io/v1"
@@ -70,4 +70,6 @@ resource "kubernetes_manifest" "clusterlogging_openshift_logging_instance" {
       }
     }
   }
+
+  depends_on = [kubernetes_manifest.subscription_openshift_logging_cluster_logging]
 }

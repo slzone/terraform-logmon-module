@@ -24,3 +24,15 @@ variable "schematics" {
   default     = true
   description = "Set to false if you are not running this template in schematics"
 }
+
+variable "install_logging" {
+  type        = bool
+  default     = false
+  description = "Set to true to install logging"
+}
+
+variable "install_monitoring" {
+  type        = bool
+  default     = false
+  description = "Set to true to install monitoring"
+}

@@ -1,5 +1,6 @@
 resource "kubernetes_manifest" "namespace_openshift_operators_redhat" {
   #depends_on = [ibm_container_vpc_worker_pool.pool]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "v1"
@@ -17,7 +18,7 @@ resource "kubernetes_manifest" "namespace_openshift_operators_redhat" {
 }
 
 resource "kubernetes_manifest" "operatorgroup_openshift_operators_redhat_openshift_operators_redhat" {
-  depends_on = [kubernetes_manifest.namespace_openshift_logging]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1"
@@ -28,10 +29,12 @@ resource "kubernetes_manifest" "operatorgroup_openshift_operators_redhat_openshi
     }
     "spec" = {}
   }
+
+  depends_on = [kubernetes_manifest.namespace_openshift_operators_redhat]
 }
 
 resource "kubernetes_manifest" "subscription_openshift_operators_redhat_elasticsearch_operator" {
-  depends_on = [kubernetes_manifest.operatorgroup_openshift_operators_redhat_openshift_operators_redhat]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1alpha1"
@@ -48,5 +51,7 @@ resource "kubernetes_manifest" "subscription_openshift_operators_redhat_elastics
       "sourceNamespace"     = "openshift-marketplace"
     }
   }
+
+  depends_on = [kubernetes_manifest.operatorgroup_openshift_operators_redhat_openshift_operators_redhat]
 }
 

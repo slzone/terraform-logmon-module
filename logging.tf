@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "namespace_openshift_logging" {
-  depends_on = [kubernetes_manifest.namespace_openshift_operators_redhat]
+  count = var.install_logging == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "v1"
@@ -14,10 +14,12 @@ resource "kubernetes_manifest" "namespace_openshift_logging" {
       "name" = "openshift-logging"
     }
   }
+
+  depends_on = [kubernetes_manifest.namespace_openshift_operators_redhat]
 }
 
 resource "kubernetes_manifest" "operatorgroup_openshift_logging_cluster_logging" {
-  depends_on = [kubernetes_manifest.namespace_openshift_logging]
+  count = var.install_logging == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1"
@@ -32,9 +34,11 @@ resource "kubernetes_manifest" "operatorgroup_openshift_logging_cluster_logging"
       ]
     }
   }
+
+  depends_on = [kubernetes_manifest.namespace_openshift_logging]
 }
 resource "kubernetes_manifest" "subscription_openshift_logging_cluster_logging" {
-  depends_on = [kubernetes_manifest.operatorgroup_openshift_logging_cluster_logging]
+  count = var.install_logging == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1alpha1"
@@ -50,4 +54,6 @@ resource "kubernetes_manifest" "subscription_openshift_logging_cluster_logging" 
       "sourceNamespace" = "openshift-marketplace"
     }
   }
+
+  depends_on = [kubernetes_manifest.operatorgroup_openshift_logging_cluster_logging]
 }
