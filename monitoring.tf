@@ -15,7 +15,7 @@ resource "kubernetes_manifest" "namespace_my_grafana_operator" {
     }
   }
 
-  depends_on = [kubernetes_manifest.clusterlogging_openshift_logging_instance]
+  depends_on = [ibm_container_worker_pool.logmon]
 }
 
 resource "kubernetes_manifest" "configmap_openshift_monitoring_cluster_monitoring_config" {
