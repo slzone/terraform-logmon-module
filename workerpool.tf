@@ -1,5 +1,5 @@
 resource "ibm_container_worker_pool" "logmon" {
-  count = var.use_default_worker_pool == true ? 0 : 1
+  count = (var.use_default_worker_pool && (var.install_logging || var.install_monitoring)) == true ? 1 : 0
 
   worker_pool_name = "logmon-worker-pool"
   machine_type     = "mx2.4x32" # 4 vCPU, 32 GB Memory
