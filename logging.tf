@@ -203,13 +203,16 @@ resource "null_resource" "clusterlogging_openshift_logging_instance" {
   count = var.install_logging == true ? 1 : 0
 
   triggers = {
-    "cluster_name" = var.cluster_name
+    "ibmcloud_api_key" = var.ibmcloud_api_key
+    "region"           = var.region
+    "cluster_name"     = var.cluster_name
   }
 
   provisioner "local-exec" {
     command = <<EOF
 
-ibmcloud oc cluster config --cluster ${CLUSTER_NAME} --admin -q
+ibmcloud login --apikey ${self.triggers.ibmcloud_api_key} -r ${self.triggers.region} -q
+ibmcloud oc cluster config --cluster ${self.triggers.cluster_name} --admin -q
 
 oc config current-context 2> errors.txt 
 if [[ -f errors.txt && -s errors.txt ]]; then
