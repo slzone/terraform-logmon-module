@@ -305,14 +305,17 @@ EOF
   provisioner "local-exec" {
     when    = destroy
     command = <<EOF
-FILE="instance.yaml"
-if [ ! -f "$FILE" ]; then 
-  echo "$FILE does not exist, please configure logging to run this step"
-  exit 0; # non-error
+# Set context
+export KUBECONFIG=${self.triggers.config_path}
+
+oc config current-context 2> errors.txt 
+if [[ -f errors.txt && -s errors.txt ]]; then
+  cat errors.txt
+  exit 1;
 fi
 
-echo "$FILE exists, destroying cluster logging instance"
-oc delete -f instance.yaml
+echo "Destroying cluster logging instance"
+oc delete clusterlogging/instance -n openshift-logging --force
 
 sleep 60 
 
