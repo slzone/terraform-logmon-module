@@ -214,14 +214,14 @@ export KUBECONFIG=${self.triggers.config_path}
 oc config current-context 2> errors.txt 
 if [[ -f errors.txt && -s errors.txt ]]; then
   cat errors.txt
-  exit 
+  exit 1;
 fi
 
 echo "Verifying Operator Installation for $(oc config current-context)"
 echo "--------------------------------------"
 
 IS_INSTALLED=false
-RETRY_LIMIT=15
+RETRY_LIMIT=20
 i=0
 
 while [[ "$IS_INSTALLED" == "false" ]] && [ "$i" -lt "$RETRY_LIMIT" ]; 
@@ -231,7 +231,7 @@ do
   if [[ "$RESPONSE" == "" ]]; then 
     echo "* ($((i+1))/$RETRY_LIMIT) Installed ... false"
     IS_INSTALLED=false
-    # sleep 10
+    sleep 60
   else 
     echo "* ($((i+1))/$RETRY_LIMIT) Installed ... true"
     IS_INSTALLED=true
@@ -242,6 +242,7 @@ done
 
 if [[ "$IS_INSTALLED" == "false" ]] && [ "$i" -eq "$RETRY_LIMIT" ]; then 
   echo "Exhausted max attempts waiting for operator installation (retry limit: $RETRY_LIMIT)"
+  exit 1;
 fi
 
 echo 'apiVersion: "logging.openshift.io/v1"
