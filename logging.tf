@@ -209,7 +209,7 @@ resource "null_resource" "clusterlogging_openshift_logging_instance" {
   provisioner "local-exec" {
     command = <<EOF
 # Set context
-export KUBECONFIG=${config_path}
+export KUBECONFIG=${self.triggers.config_path}
 
 oc config current-context 2> errors.txt 
 if [[ -f errors.txt && -s errors.txt ]]; then
