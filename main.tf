@@ -13,6 +13,7 @@ data "ibm_container_cluster_config" "cluster" {
   resource_group_id = data.ibm_resource_group.group.id
   admin             = true
   config_dir        = var.schematics == true ? "/tmp/.schematics" : "."
+  download          = true
 }
 
 provider "kubernetes" {
