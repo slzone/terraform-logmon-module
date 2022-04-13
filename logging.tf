@@ -226,7 +226,7 @@ i=0
 
 while [[ "$IS_INSTALLED" == "false" ]] && [ "$i" -lt "$RETRY_LIMIT" ]; 
 do
-  RESPONSE=$(oc get csv -n openshift-logging | grep "openshift-logging")
+  RESPONSE=$(oc get csv -n openshift-logging | grep "cluster-logging")
 
   if [[ "$RESPONSE" == "" ]]; then 
     echo "* ($((i+1))/$RETRY_LIMIT) Installed ... false"
