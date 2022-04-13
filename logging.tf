@@ -202,10 +202,23 @@ resource "kubernetes_manifest" "subscription_openshift_logging_cluster_logging" 
 resource "null_resource" "clusterlogging_openshift_logging_instance" {
   count = var.install_logging == true ? 1 : 0
 
+  triggers = {
+    "cluster_name" = var.cluster_name
+  }
+
   provisioner "local-exec" {
     command = <<EOF
+
+ibmcloud oc cluster config --cluster ${CLUSTER_NAME} --admin -q
+
+oc config current-context 2> errors.txt 
+if [[ -f errors.txt && -s errors.txt ]]; then
+  cat errors.txt
+  exit 
+fi
+
 echo "Verifying Operator Installation for $(oc config current-context)"
-echo '--------------------------------------'
+echo "--------------------------------------"
 
 IS_INSTALLED=false
 RETRY_LIMIT=15
@@ -240,7 +253,7 @@ spec:
   collection:
     logs:
       type: "fluentd"  
-      fluentd: {}'
+      fluentd: {}
   curation:
     type: "curator"
     curator:
