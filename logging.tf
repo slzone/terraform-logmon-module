@@ -14,8 +14,6 @@ resource "kubernetes_manifest" "namespace_openshift_elasticsearch_operator" {
       "name" = "openshift-operators-redhat"
     }
   }
-
-  depends_on = [ibm_container_worker_pool.logmon]
 }
 
 resource "kubernetes_manifest" "namespace_openshift_logging_operator" {

@@ -14,8 +14,6 @@ resource "kubernetes_manifest" "namespace_my_grafana_operator" {
       "name" = "my-grafana-operator"
     }
   }
-
-  depends_on = [ibm_container_worker_pool.logmon]
 }
 
 resource "kubernetes_manifest" "configmap_openshift_monitoring_cluster_monitoring_config" {
@@ -169,4 +167,3 @@ resource "kubernetes_manifest" "subscription_my_grafana_operator_my_grafana_oper
 
   depends_on = [kubernetes_manifest.operatorgroup_my_grafana_operator_my_grafana_operator]
 }
-

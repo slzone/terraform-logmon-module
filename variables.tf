@@ -36,9 +36,3 @@ variable "install_monitoring" {
   default     = false
   description = "Set to true to install monitoring"
 }
-
-variable "use_default_worker_pool" {
-  type        = bool
-  default     = true
-  description = "Set to true to deploy kubernetes resources to default worker pool in cluster"
-}
