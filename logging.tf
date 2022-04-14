@@ -263,6 +263,11 @@ spec:
     type: "elasticsearch"  
     elasticsearch:
       nodeCount: 3
+      tolerations:
+      - key: "logging-monitoring"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 600
       proxy: 
         resources:
           limits:
@@ -289,7 +294,12 @@ spec:
   visualization:
     type: "kibana"
     kibana:
-      replicas: 1' > instance.yaml
+      replicas: 1
+      tolerations:
+      - key: "logging-monitoring"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 600' > instance.yaml
 
 echo "Creating Cluster Logging instance"
 oc create -f instance.yaml
