@@ -1,8 +1,9 @@
 resource "kubernetes_manifest" "namespace_my_grafana_operator" {
-    depends_on = [kubernetes_manifest.clusterlogging_openshift_logging_instance]   
+  count = var.install_monitoring == true ? 1 : 0
+
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Namespace"
+    "kind"       = "Namespace"
     "metadata" = {
       "annotations" = {
         "openshift.io/node-selector" = ""
@@ -16,8 +17,8 @@ resource "kubernetes_manifest" "namespace_my_grafana_operator" {
 }
 
 resource "kubernetes_manifest" "configmap_openshift_monitoring_cluster_monitoring_config" {
-    depends_on = [kubernetes_manifest.namespace_my_grafana_operator]
-   
+  count = var.install_monitoring == true ? 1 : 0
+
   manifest = {
     "apiVersion" = "v1"
     "data" = {
@@ -84,14 +85,16 @@ resource "kubernetes_manifest" "configmap_openshift_monitoring_cluster_monitorin
     }
     "kind" = "ConfigMap"
     "metadata" = {
-      "name" = "cluster-monitoring-config"
+      "name"      = "cluster-monitoring-config"
       "namespace" = "openshift-monitoring"
     }
   }
+
+  depends_on = [kubernetes_manifest.namespace_my_grafana_operator]
 }
 
 resource "kubernetes_manifest" "configmap_openshift_user_workload_monitoring_user_workload_monitoring_config" {
-    depends_on = [kubernetes_manifest.configmap_openshift_monitoring_cluster_monitoring_config]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "v1"
@@ -116,20 +119,22 @@ resource "kubernetes_manifest" "configmap_openshift_user_workload_monitoring_use
     }
     "kind" = "ConfigMap"
     "metadata" = {
-      "name" = "user-workload-monitoring-config"
+      "name"      = "user-workload-monitoring-config"
       "namespace" = "openshift-user-workload-monitoring"
     }
   }
+
+  depends_on = [kubernetes_manifest.configmap_openshift_monitoring_cluster_monitoring_config]
 }
 
 resource "kubernetes_manifest" "operatorgroup_my_grafana_operator_my_grafana_operator" {
-    depends_on = [kubernetes_manifest.configmap_openshift_user_workload_monitoring_user_workload_monitoring_config]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1"
-    "kind" = "OperatorGroup"
+    "kind"       = "OperatorGroup"
     "metadata" = {
-      "name" = "my-grafana-operator"
+      "name"      = "my-grafana-operator"
       "namespace" = "my-grafana-operator"
     }
     "spec" = {
@@ -138,24 +143,27 @@ resource "kubernetes_manifest" "operatorgroup_my_grafana_operator_my_grafana_ope
       ]
     }
   }
+
+  depends_on = [kubernetes_manifest.configmap_openshift_user_workload_monitoring_user_workload_monitoring_config]
 }
 
 resource "kubernetes_manifest" "subscription_my_grafana_operator_my_grafana_operator" {
-    depends_on = [kubernetes_manifest.operatorgroup_my_grafana_operator_my_grafana_operator]
+  count = var.install_monitoring == true ? 1 : 0
 
   manifest = {
     "apiVersion" = "operators.coreos.com/v1alpha1"
-    "kind" = "Subscription"
+    "kind"       = "Subscription"
     "metadata" = {
-      "name" = "my-grafana-operator"
+      "name"      = "my-grafana-operator"
       "namespace" = "my-grafana-operator"
     }
     "spec" = {
-      "channel" = "v4"
-      "name" = "grafana-operator"
-      "source" = "community-operators"
+      "channel"         = "v4"
+      "name"            = "grafana-operator"
+      "source"          = "community-operators"
       "sourceNamespace" = "openshift-marketplace"
     }
   }
-}
 
+  depends_on = [kubernetes_manifest.operatorgroup_my_grafana_operator_my_grafana_operator]
+}
